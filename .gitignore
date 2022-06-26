@@ -1,0 +1,11 @@
+hftrx_zynq_myir7020.runs
+hftrx_zynq_myir7020.cache
+hftrx_zynq_myir7020.sim
+hftrx_zynq_myir7020.hw
+hftrx_zynq_myir7020.ioplanning
+hftrx_zynq_myir7020.sdk
+hftrx_zynq_myir7020.tmp
+*.log
+*.jou
+*.xsa
+*.str
