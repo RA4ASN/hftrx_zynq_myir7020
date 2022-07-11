@@ -173,7 +173,9 @@ proc create_root_design { parentCell } {
   set adc_in [ create_bd_port -dir I -from 15 -to 0 adc_in ]
   set bclk [ create_bd_port -dir O -from 0 -to 0 bclk ]
   set clk_adc_i [ create_bd_port -dir I -type clk -freq_hz 122880000 clk_adc_i ]
+  set cpu_fan_pwm [ create_bd_port -dir O cpu_fan_pwm ]
   set dac_out [ create_bd_port -dir O -from 13 -to 0 dac_out ]
+  set dcdc_pwm [ create_bd_port -dir O dcdc_pwm ]
   set din [ create_bd_port -dir I din ]
   set dout [ create_bd_port -dir O -from 0 -to 0 dout ]
   set fs [ create_bd_port -dir O -from 0 -to 0 fs ]
@@ -511,6 +513,9 @@ proc create_root_design { parentCell } {
    CONFIG.USE_RESET {false} \
  ] $clk_wiz_0
 
+  # Create instance: cpu_fan_pwm_0, and set properties
+  set cpu_fan_pwm_0 [ create_bd_cell -type ip -vlnv xilinx.com:user:ax_pwm:1.0 cpu_fan_pwm_0 ]
+
   # Create instance: data_divide_0, and set properties
   set block_name data_divide
   set block_cell_name data_divide_0
@@ -555,6 +560,9 @@ proc create_root_design { parentCell } {
      return 1
    }
   
+  # Create instance: dcdc_pwm_1, and set properties
+  set dcdc_pwm_1 [ create_bd_cell -type ip -vlnv xilinx.com:user:ax_pwm:1.0 dcdc_pwm_1 ]
+
   # Create instance: dds_compiler_0, and set properties
   set dds_compiler_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:dds_compiler:6.0 dds_compiler_0 ]
   set_property -dict [ list \
@@ -1169,8 +1177,8 @@ proc create_root_design { parentCell } {
    CONFIG.PCW_GP1_NUM_WRITE_THREADS {4} \
    CONFIG.PCW_GPIO_BASEADDR {0xE000A000} \
    CONFIG.PCW_GPIO_EMIO_GPIO_ENABLE {1} \
-   CONFIG.PCW_GPIO_EMIO_GPIO_IO {33} \
-   CONFIG.PCW_GPIO_EMIO_GPIO_WIDTH {33} \
+   CONFIG.PCW_GPIO_EMIO_GPIO_IO {32} \
+   CONFIG.PCW_GPIO_EMIO_GPIO_WIDTH {32} \
    CONFIG.PCW_GPIO_HIGHADDR {0xE000AFFF} \
    CONFIG.PCW_GPIO_MIO_GPIO_ENABLE {1} \
    CONFIG.PCW_GPIO_MIO_GPIO_IO {MIO} \
@@ -1782,7 +1790,7 @@ Reset#GPIO#UART 1#UART 1#GPIO#GPIO#Enet 0#Enet 0}\
   # Create instance: smartconnect_1, and set properties
   set smartconnect_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_1 ]
   set_property -dict [ list \
-   CONFIG.NUM_MI {9} \
+   CONFIG.NUM_MI {11} \
    CONFIG.NUM_SI {1} \
  ] $smartconnect_1
 
@@ -1877,6 +1885,8 @@ Reset#GPIO#UART 1#UART 1#GPIO#GPIO#Enet 0#Enet 0}\
   connect_bd_intf_net -intf_net smartconnect_1_M06_AXI [get_bd_intf_pins axi_vdma_0/S_AXI_LITE] [get_bd_intf_pins smartconnect_1/M06_AXI]
   connect_bd_intf_net -intf_net smartconnect_1_M07_AXI [get_bd_intf_pins smartconnect_1/M07_AXI] [get_bd_intf_pins trx_control2_0/S00_AXI]
   connect_bd_intf_net -intf_net smartconnect_1_M08_AXI [get_bd_intf_pins smartconnect_1/M08_AXI] [get_bd_intf_pins v_tc_0/ctrl]
+  connect_bd_intf_net -intf_net smartconnect_1_M09_AXI [get_bd_intf_pins cpu_fan_pwm_0/S00_AXI] [get_bd_intf_pins smartconnect_1/M09_AXI]
+  connect_bd_intf_net -intf_net smartconnect_1_M10_AXI [get_bd_intf_pins dcdc_pwm_1/S00_AXI] [get_bd_intf_pins smartconnect_1/M10_AXI]
   connect_bd_intf_net -intf_net v_tc_0_vtiming_out [get_bd_intf_pins v_axi4s_vid_out_0/vtiming_in] [get_bd_intf_pins v_tc_0/vtiming_out]
 
   # Create port connections
@@ -1889,6 +1899,8 @@ Reset#GPIO#UART 1#UART 1#GPIO#GPIO#Enet 0#Enet 0}\
   connect_bd_net -net Net5 [get_bd_pins fir_compiler_4/s_axis_config_tdata] [get_bd_pins fir_compiler_5/s_axis_config_tdata] [get_bd_pins fir_compiler_6/s_axis_config_tdata] [get_bd_pins fir_compiler_7/s_axis_config_tdata] [get_bd_pins xlconstant_2/dout]
   connect_bd_net -net Net6 [get_bd_pins fir_compiler_4/s_axis_config_tvalid] [get_bd_pins fir_compiler_5/s_axis_config_tvalid] [get_bd_pins fir_compiler_6/s_axis_config_tvalid] [get_bd_pins fir_compiler_7/s_axis_config_tvalid] [get_bd_pins xlconstant_4/dout]
   connect_bd_net -net adc_in_1 [get_bd_ports adc_in] [get_bd_pins data_latch_0/data_in_adc]
+  connect_bd_net -net ax_pwm_0_pwm [get_bd_ports cpu_fan_pwm] [get_bd_pins cpu_fan_pwm_0/pwm]
+  connect_bd_net -net ax_pwm_1_pwm [get_bd_ports dcdc_pwm] [get_bd_pins dcdc_pwm_1/pwm]
   connect_bd_net -net axi_dma_if_tx_mm2s_introut [get_bd_pins axi_dma_if_tx/mm2s_introut] [get_bd_pins xlconcat_0/In1]
   connect_bd_net -net axi_fifo_mm_s_0_interrupt [get_bd_pins axi_fifo_iq_rx/interrupt] [get_bd_pins xlconcat_0/In2]
   connect_bd_net -net axi_fifo_mm_s_1_interrupt [get_bd_pins axi_fifo_mic/interrupt] [get_bd_pins xlconcat_0/In4]
@@ -1922,7 +1934,7 @@ Reset#GPIO#UART 1#UART 1#GPIO#GPIO#Enet 0#Enet 0}\
   connect_bd_net -net mult_gen_7_P [get_bd_pins cic_compiler_7/s_axis_data_tdata] [get_bd_pins mult_gen_7/P]
   connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins v_tc_0/resetn]
   connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins v_axi4s_vid_out_0/vid_io_out_reset]
-  connect_bd_net -net proc_sys_reset_150M_peripheral_aresetn [get_bd_pins axi_dma_fir_reload/axi_resetn] [get_bd_pins axi_dma_if_tx/axi_resetn] [get_bd_pins axi_fifo_iq_rx/s_axi_aresetn] [get_bd_pins axi_fifo_mic/s_axi_aresetn] [get_bd_pins axi_fifo_phones/s_axi_aresetn] [get_bd_pins axi_i2s_adi_0/s_axi_aresetn] [get_bd_pins axi_i2s_adi_0/s_axis_aresetn] [get_bd_pins axi_vdma_0/axi_resetn] [get_bd_pins axis_broadcaster_0/aresetn] [get_bd_pins axis_broadcaster_1/aresetn] [get_bd_pins axis_data_fifo_0/s_axis_aresetn] [get_bd_pins axis_subset_converter_0/aresetn] [get_bd_pins cic_compiler_0/aresetn] [get_bd_pins cic_compiler_1/aresetn] [get_bd_pins cic_compiler_2/aresetn] [get_bd_pins cic_compiler_3/aresetn] [get_bd_pins cic_compiler_4/aresetn] [get_bd_pins cic_compiler_5/aresetn] [get_bd_pins cic_compiler_6/aresetn] [get_bd_pins cic_compiler_7/aresetn] [get_bd_pins dds_compiler_0/aresetn] [get_bd_pins dds_compiler_1/aresetn] [get_bd_pins dds_compiler_2/aresetn] [get_bd_pins fir_compiler_0/aresetn] [get_bd_pins fir_compiler_1/aresetn] [get_bd_pins fir_compiler_2/aresetn] [get_bd_pins fir_compiler_3/aresetn] [get_bd_pins fir_compiler_4/aresetn] [get_bd_pins fir_compiler_5/aresetn] [get_bd_pins fir_compiler_6/aresetn] [get_bd_pins fir_compiler_7/aresetn] [get_bd_pins proc_sys_reset_150M/peripheral_aresetn] [get_bd_pins smartconnect_0/aresetn] [get_bd_pins smartconnect_1/aresetn] [get_bd_pins trx_control2_0/s00_axi_aresetn] [get_bd_pins v_axi4s_vid_out_0/aresetn] [get_bd_pins v_tc_0/s_axi_aresetn]
+  connect_bd_net -net proc_sys_reset_150M_peripheral_aresetn [get_bd_pins axi_dma_fir_reload/axi_resetn] [get_bd_pins axi_dma_if_tx/axi_resetn] [get_bd_pins axi_fifo_iq_rx/s_axi_aresetn] [get_bd_pins axi_fifo_mic/s_axi_aresetn] [get_bd_pins axi_fifo_phones/s_axi_aresetn] [get_bd_pins axi_i2s_adi_0/s_axi_aresetn] [get_bd_pins axi_i2s_adi_0/s_axis_aresetn] [get_bd_pins axi_vdma_0/axi_resetn] [get_bd_pins axis_broadcaster_0/aresetn] [get_bd_pins axis_broadcaster_1/aresetn] [get_bd_pins axis_data_fifo_0/s_axis_aresetn] [get_bd_pins axis_subset_converter_0/aresetn] [get_bd_pins cic_compiler_0/aresetn] [get_bd_pins cic_compiler_1/aresetn] [get_bd_pins cic_compiler_2/aresetn] [get_bd_pins cic_compiler_3/aresetn] [get_bd_pins cic_compiler_4/aresetn] [get_bd_pins cic_compiler_5/aresetn] [get_bd_pins cic_compiler_6/aresetn] [get_bd_pins cic_compiler_7/aresetn] [get_bd_pins cpu_fan_pwm_0/s00_axi_aresetn] [get_bd_pins dcdc_pwm_1/s00_axi_aresetn] [get_bd_pins dds_compiler_0/aresetn] [get_bd_pins dds_compiler_1/aresetn] [get_bd_pins dds_compiler_2/aresetn] [get_bd_pins fir_compiler_0/aresetn] [get_bd_pins fir_compiler_1/aresetn] [get_bd_pins fir_compiler_2/aresetn] [get_bd_pins fir_compiler_3/aresetn] [get_bd_pins fir_compiler_4/aresetn] [get_bd_pins fir_compiler_5/aresetn] [get_bd_pins fir_compiler_6/aresetn] [get_bd_pins fir_compiler_7/aresetn] [get_bd_pins proc_sys_reset_150M/peripheral_aresetn] [get_bd_pins smartconnect_0/aresetn] [get_bd_pins smartconnect_1/aresetn] [get_bd_pins trx_control2_0/s00_axi_aresetn] [get_bd_pins v_axi4s_vid_out_0/aresetn] [get_bd_pins v_tc_0/s_axi_aresetn]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_ports lcd_clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins v_axi4s_vid_out_0/vid_io_out_clk] [get_bd_pins v_tc_0/clk]
   connect_bd_net -net sdata_i_1 [get_bd_ports din] [get_bd_pins axi_i2s_adi_0/sdata_i]
   connect_bd_net -net trx_control2_0_dds_ftw [get_bd_pins dds_compiler_0/s_axis_config_tdata] [get_bd_pins trx_control2_0/dds_ftw]
@@ -1931,7 +1943,7 @@ Reset#GPIO#UART 1#UART 1#GPIO#GPIO#Enet 0#Enet 0}\
   connect_bd_net -net trx_control2_0_rx_iq_shift [get_bd_pins iq_to_fifo_shifted_0/distance] [get_bd_pins trx_control2_0/rx_iq_shift]
   connect_bd_net -net trx_control2_0_tx_shift [get_bd_pins DAC_OUT_0/shift] [get_bd_pins trx_control2_0/tx_shift]
   connect_bd_net -net trx_control_0_tx [get_bd_pins DAC_OUT_0/tx] [get_bd_pins data_latch_0/source] [get_bd_pins trx_control2_0/tx]
-  connect_bd_net -net util_ds_buf_0_BUFG_O [get_bd_ports clk_adc_i] [get_bd_pins DAC_OUT_0/clk_in] [get_bd_pins axi_dma_fir_reload/m_axi_mm2s_aclk] [get_bd_pins axi_dma_fir_reload/s_axi_lite_aclk] [get_bd_pins axi_dma_if_tx/m_axi_mm2s_aclk] [get_bd_pins axi_dma_if_tx/s_axi_lite_aclk] [get_bd_pins axi_fifo_iq_rx/s_axi_aclk] [get_bd_pins axi_fifo_mic/s_axi_aclk] [get_bd_pins axi_fifo_phones/s_axi_aclk] [get_bd_pins axi_i2s_adi_0/m_axis_aclk] [get_bd_pins axi_i2s_adi_0/s_axi_aclk] [get_bd_pins axi_i2s_adi_0/s_axis_aclk] [get_bd_pins axi_vdma_0/m_axi_mm2s_aclk] [get_bd_pins axi_vdma_0/m_axis_mm2s_aclk] [get_bd_pins axi_vdma_0/s_axi_lite_aclk] [get_bd_pins axis_broadcaster_0/aclk] [get_bd_pins axis_broadcaster_1/aclk] [get_bd_pins axis_data_fifo_0/s_axis_aclk] [get_bd_pins axis_subset_converter_0/aclk] [get_bd_pins c_addsub_0/CLK] [get_bd_pins cic_compiler_0/aclk] [get_bd_pins cic_compiler_1/aclk] [get_bd_pins cic_compiler_2/aclk] [get_bd_pins cic_compiler_3/aclk] [get_bd_pins cic_compiler_4/aclk] [get_bd_pins cic_compiler_5/aclk] [get_bd_pins cic_compiler_6/aclk] [get_bd_pins cic_compiler_7/aclk] [get_bd_pins clk_wiz_0/clk_in1] [get_bd_pins data_divide_0/clk_i] [get_bd_pins data_divide_1/clk_i] [get_bd_pins data_divide_2/clk_i] [get_bd_pins data_latch_0/clk_i] [get_bd_pins dds_compiler_0/aclk] [get_bd_pins dds_compiler_1/aclk] [get_bd_pins dds_compiler_2/aclk] [get_bd_pins fir_compiler_0/aclk] [get_bd_pins fir_compiler_1/aclk] [get_bd_pins fir_compiler_2/aclk] [get_bd_pins fir_compiler_3/aclk] [get_bd_pins fir_compiler_4/aclk] [get_bd_pins fir_compiler_5/aclk] [get_bd_pins fir_compiler_6/aclk] [get_bd_pins fir_compiler_7/aclk] [get_bd_pins iq_to_fifo_shifted_0/axis_aclk] [get_bd_pins lcd_remap_0/clk_i] [get_bd_pins mult_gen_0/CLK] [get_bd_pins mult_gen_1/CLK] [get_bd_pins mult_gen_2/CLK] [get_bd_pins mult_gen_3/CLK] [get_bd_pins mult_gen_4/CLK] [get_bd_pins mult_gen_5/CLK] [get_bd_pins mult_gen_6/CLK] [get_bd_pins mult_gen_7/CLK] [get_bd_pins proc_sys_reset_150M/slowest_sync_clk] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins smartconnect_0/aclk] [get_bd_pins smartconnect_1/aclk] [get_bd_pins trx_control2_0/s00_axi_aclk] [get_bd_pins v_axi4s_vid_out_0/aclk] [get_bd_pins v_tc_0/s_axi_aclk]
+  connect_bd_net -net util_ds_buf_0_BUFG_O [get_bd_ports clk_adc_i] [get_bd_pins DAC_OUT_0/clk_in] [get_bd_pins axi_dma_fir_reload/m_axi_mm2s_aclk] [get_bd_pins axi_dma_fir_reload/s_axi_lite_aclk] [get_bd_pins axi_dma_if_tx/m_axi_mm2s_aclk] [get_bd_pins axi_dma_if_tx/s_axi_lite_aclk] [get_bd_pins axi_fifo_iq_rx/s_axi_aclk] [get_bd_pins axi_fifo_mic/s_axi_aclk] [get_bd_pins axi_fifo_phones/s_axi_aclk] [get_bd_pins axi_i2s_adi_0/m_axis_aclk] [get_bd_pins axi_i2s_adi_0/s_axi_aclk] [get_bd_pins axi_i2s_adi_0/s_axis_aclk] [get_bd_pins axi_vdma_0/m_axi_mm2s_aclk] [get_bd_pins axi_vdma_0/m_axis_mm2s_aclk] [get_bd_pins axi_vdma_0/s_axi_lite_aclk] [get_bd_pins axis_broadcaster_0/aclk] [get_bd_pins axis_broadcaster_1/aclk] [get_bd_pins axis_data_fifo_0/s_axis_aclk] [get_bd_pins axis_subset_converter_0/aclk] [get_bd_pins c_addsub_0/CLK] [get_bd_pins cic_compiler_0/aclk] [get_bd_pins cic_compiler_1/aclk] [get_bd_pins cic_compiler_2/aclk] [get_bd_pins cic_compiler_3/aclk] [get_bd_pins cic_compiler_4/aclk] [get_bd_pins cic_compiler_5/aclk] [get_bd_pins cic_compiler_6/aclk] [get_bd_pins cic_compiler_7/aclk] [get_bd_pins clk_wiz_0/clk_in1] [get_bd_pins cpu_fan_pwm_0/s00_axi_aclk] [get_bd_pins data_divide_0/clk_i] [get_bd_pins data_divide_1/clk_i] [get_bd_pins data_divide_2/clk_i] [get_bd_pins data_latch_0/clk_i] [get_bd_pins dcdc_pwm_1/s00_axi_aclk] [get_bd_pins dds_compiler_0/aclk] [get_bd_pins dds_compiler_1/aclk] [get_bd_pins dds_compiler_2/aclk] [get_bd_pins fir_compiler_0/aclk] [get_bd_pins fir_compiler_1/aclk] [get_bd_pins fir_compiler_2/aclk] [get_bd_pins fir_compiler_3/aclk] [get_bd_pins fir_compiler_4/aclk] [get_bd_pins fir_compiler_5/aclk] [get_bd_pins fir_compiler_6/aclk] [get_bd_pins fir_compiler_7/aclk] [get_bd_pins iq_to_fifo_shifted_0/axis_aclk] [get_bd_pins lcd_remap_0/clk_i] [get_bd_pins mult_gen_0/CLK] [get_bd_pins mult_gen_1/CLK] [get_bd_pins mult_gen_2/CLK] [get_bd_pins mult_gen_3/CLK] [get_bd_pins mult_gen_4/CLK] [get_bd_pins mult_gen_5/CLK] [get_bd_pins mult_gen_6/CLK] [get_bd_pins mult_gen_7/CLK] [get_bd_pins proc_sys_reset_150M/slowest_sync_clk] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins smartconnect_0/aclk] [get_bd_pins smartconnect_1/aclk] [get_bd_pins trx_control2_0/s00_axi_aclk] [get_bd_pins v_axi4s_vid_out_0/aclk] [get_bd_pins v_tc_0/s_axi_aclk]
   connect_bd_net -net v_axi4s_vid_out_0_vid_active_video [get_bd_ports lcd_de] [get_bd_pins v_axi4s_vid_out_0/vid_active_video]
   connect_bd_net -net v_axi4s_vid_out_0_vid_data [get_bd_pins lcd_remap_0/rgb_in] [get_bd_pins v_axi4s_vid_out_0/vid_data]
   connect_bd_net -net v_axi4s_vid_out_0_vid_hsync [get_bd_ports lcd_hsync] [get_bd_pins v_axi4s_vid_out_0/vid_hsync]
@@ -1945,6 +1957,8 @@ Reset#GPIO#UART 1#UART 1#GPIO#GPIO#Enet 0#Enet 0}\
   assign_bd_address -offset 0x00000000 -range 0x20000000 -target_address_space [get_bd_addr_spaces axi_dma_fir_reload/Data_MM2S] [get_bd_addr_segs processing_system7_0/S_AXI_HP0/HP0_DDR_LOWOCM] -force
   assign_bd_address -offset 0x00000000 -range 0x20000000 -target_address_space [get_bd_addr_spaces axi_dma_if_tx/Data_MM2S] [get_bd_addr_segs processing_system7_0/S_AXI_HP0/HP0_DDR_LOWOCM] -force
   assign_bd_address -offset 0x00000000 -range 0x20000000 -target_address_space [get_bd_addr_spaces axi_vdma_0/Data_MM2S] [get_bd_addr_segs processing_system7_0/S_AXI_HP0/HP0_DDR_LOWOCM] -force
+  assign_bd_address -offset 0x43C20000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs cpu_fan_pwm_0/S00_AXI/S00_AXI_reg] -force
+  assign_bd_address -offset 0x43C70000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs dcdc_pwm_1/S00_AXI/S00_AXI_reg] -force
   assign_bd_address -offset 0x40410000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs axi_dma_if_tx/S_AXI_LITE/Reg] -force
   assign_bd_address -offset 0x40400000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs axi_dma_fir_reload/S_AXI_LITE/Reg] -force
   assign_bd_address -offset 0x43C00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs axi_fifo_iq_rx/S_AXI/Mem0] -force

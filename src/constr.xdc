@@ -45,32 +45,30 @@ set_property -dict {PACKAGE_PIN H16 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_i
 set_property -dict {PACKAGE_PIN M15 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[18]]
 # 73 - TS_INT
 set_property -dict {PACKAGE_PIN V15 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[19]]
-# 74 - USER_BOOT
-set_property -dict {PACKAGE_PIN U15 PULLUP true IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[20]]
-# 75 - ACTIVITY_LED
-set_property -dict {PACKAGE_PIN F16 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[21]]
-# 76 - NMEA_RESET
-set_property -dict {PACKAGE_PIN T15 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[22]]
-# 77 - PPS_IN
-set_property -dict {PACKAGE_PIN U14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[23]]
-# 78 - FPLCD_CD
-set_property -dict {PACKAGE_PIN W15 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[24]]
-# 79 - FPLCD_RESET
-set_property -dict {PACKAGE_PIN M14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[25]]
-# 80 - LCD_BL_ADJ0
-set_property -dict {PACKAGE_PIN P14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[26]]
-# 81 - LCD_BL_ADJ1
-set_property -dict {PACKAGE_PIN R14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[27]]
-# 82 - LCD_BL_ENABLE
-set_property -dict {PACKAGE_PIN T14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[28]]
-# 83 - RFADC_DITH
-set_property -dict {PACKAGE_PIN J20 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[29]]
-# 84 - RFADC_PGA
-set_property -dict {PACKAGE_PIN H20 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[30]]
-# 85 - RFADC_SHDN
-set_property -dict {PACKAGE_PIN L20 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[31]]
-# 86 - DAC_SLEEP
-set_property -dict {PACKAGE_PIN V18 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[32]]
+# 74 - ACTIVITY_LED
+set_property -dict {PACKAGE_PIN F16 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[20]]
+# 75 - NMEA_RESET
+set_property -dict {PACKAGE_PIN T15 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[21]]
+# 76 - PPS_IN
+set_property -dict {PACKAGE_PIN U14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[22]]
+# 77 - FPLCD_CD
+set_property -dict {PACKAGE_PIN W15 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[23]]
+# 78 - FPLCD_RESET
+set_property -dict {PACKAGE_PIN M14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[24]]
+# 79 - LCD_BL_ADJ0
+set_property -dict {PACKAGE_PIN P14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[25]]
+# 80 - LCD_BL_ADJ1
+set_property -dict {PACKAGE_PIN R14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[26]]
+# 81 - LCD_BL_ENABLE
+set_property -dict {PACKAGE_PIN T14 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[27]]
+# 82 - RFADC_DITH
+set_property -dict {PACKAGE_PIN J20 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[28]]
+# 83 - RFADC_PGA
+set_property -dict {PACKAGE_PIN H20 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[29]]
+# 84 - RFADC_SHDN
+set_property -dict {PACKAGE_PIN L20 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[30]]
+# 85 - DAC_SLEEP
+set_property -dict {PACKAGE_PIN V18 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[31]]
 
 set_property -dict {PACKAGE_PIN H18 IOSTANDARD LVCMOS33} [get_ports mclk]
 set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33} [get_ports bclk]
@@ -138,3 +136,6 @@ set_property PACKAGE_PIN T10 [get_ports {lcd_B[2]}]
 set_property PACKAGE_PIN T12 [get_ports {lcd_B[3]}]
 set_property PACKAGE_PIN U12 [get_ports {lcd_B[4]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {lcd_B[*]}]
+
+set_property -dict {PACKAGE_PIN U15 PULLUP true IOSTANDARD LVCMOS33} [get_ports cpu_fan_pwm]
+set_property -dict {PACKAGE_PIN H15 PULLUP true IOSTANDARD LVCMOS33} [get_ports dcdc_pwm]

@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1 (win64) Build 3247384 Thu Jun 10 19:36:33 MDT 2021
-//Date        : Sun Jun 26 11:54:38 2022
+//Date        : Mon Jul 11 21:04:37 2022
 //Host        : HOME-PC running 64-bit major release  (build 9200)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -35,7 +35,9 @@ module design_1_wrapper
     adc_in,
     bclk,
     clk_adc_i,
+    cpu_fan_pwm,
     dac_out,
+    dcdc_pwm,
     din,
     dout,
     fs,
@@ -68,11 +70,13 @@ module design_1_wrapper
   inout FIXED_IO_ps_clk;
   inout FIXED_IO_ps_porb;
   inout FIXED_IO_ps_srstb;
-  inout [32:0]GPIO_0_tri_io;
+  inout [31:0]GPIO_0_tri_io;
   input [15:0]adc_in;
   output [0:0]bclk;
   input clk_adc_i;
+  output cpu_fan_pwm;
   output [13:0]dac_out;
+  output dcdc_pwm;
   input din;
   output [0:0]dout;
   output [0:0]fs;
@@ -132,7 +136,6 @@ module design_1_wrapper
   wire [3:3]GPIO_0_tri_i_3;
   wire [30:30]GPIO_0_tri_i_30;
   wire [31:31]GPIO_0_tri_i_31;
-  wire [32:32]GPIO_0_tri_i_32;
   wire [4:4]GPIO_0_tri_i_4;
   wire [5:5]GPIO_0_tri_i_5;
   wire [6:6]GPIO_0_tri_i_6;
@@ -165,7 +168,6 @@ module design_1_wrapper
   wire [3:3]GPIO_0_tri_io_3;
   wire [30:30]GPIO_0_tri_io_30;
   wire [31:31]GPIO_0_tri_io_31;
-  wire [32:32]GPIO_0_tri_io_32;
   wire [4:4]GPIO_0_tri_io_4;
   wire [5:5]GPIO_0_tri_io_5;
   wire [6:6]GPIO_0_tri_io_6;
@@ -198,7 +200,6 @@ module design_1_wrapper
   wire [3:3]GPIO_0_tri_o_3;
   wire [30:30]GPIO_0_tri_o_30;
   wire [31:31]GPIO_0_tri_o_31;
-  wire [32:32]GPIO_0_tri_o_32;
   wire [4:4]GPIO_0_tri_o_4;
   wire [5:5]GPIO_0_tri_o_5;
   wire [6:6]GPIO_0_tri_o_6;
@@ -231,7 +232,6 @@ module design_1_wrapper
   wire [3:3]GPIO_0_tri_t_3;
   wire [30:30]GPIO_0_tri_t_30;
   wire [31:31]GPIO_0_tri_t_31;
-  wire [32:32]GPIO_0_tri_t_32;
   wire [4:4]GPIO_0_tri_t_4;
   wire [5:5]GPIO_0_tri_t_5;
   wire [6:6]GPIO_0_tri_t_6;
@@ -241,7 +241,9 @@ module design_1_wrapper
   wire [15:0]adc_in;
   wire [0:0]bclk;
   wire clk_adc_i;
+  wire cpu_fan_pwm;
   wire [13:0]dac_out;
+  wire dcdc_pwm;
   wire din;
   wire [0:0]dout;
   wire [0:0]fs;
@@ -384,11 +386,6 @@ module design_1_wrapper
         .IO(GPIO_0_tri_io[31]),
         .O(GPIO_0_tri_i_31),
         .T(GPIO_0_tri_t_31));
-  IOBUF GPIO_0_tri_iobuf_32
-       (.I(GPIO_0_tri_o_32),
-        .IO(GPIO_0_tri_io[32]),
-        .O(GPIO_0_tri_i_32),
-        .T(GPIO_0_tri_t_32));
   IOBUF GPIO_0_tri_iobuf_4
        (.I(GPIO_0_tri_o_4),
         .IO(GPIO_0_tri_io[4]),
@@ -441,13 +438,15 @@ module design_1_wrapper
         .FIXED_IO_ps_clk(FIXED_IO_ps_clk),
         .FIXED_IO_ps_porb(FIXED_IO_ps_porb),
         .FIXED_IO_ps_srstb(FIXED_IO_ps_srstb),
-        .GPIO_0_tri_i({GPIO_0_tri_i_32,GPIO_0_tri_i_31,GPIO_0_tri_i_30,GPIO_0_tri_i_29,GPIO_0_tri_i_28,GPIO_0_tri_i_27,GPIO_0_tri_i_26,GPIO_0_tri_i_25,GPIO_0_tri_i_24,GPIO_0_tri_i_23,GPIO_0_tri_i_22,GPIO_0_tri_i_21,GPIO_0_tri_i_20,GPIO_0_tri_i_19,GPIO_0_tri_i_18,GPIO_0_tri_i_17,GPIO_0_tri_i_16,GPIO_0_tri_i_15,GPIO_0_tri_i_14,GPIO_0_tri_i_13,GPIO_0_tri_i_12,GPIO_0_tri_i_11,GPIO_0_tri_i_10,GPIO_0_tri_i_9,GPIO_0_tri_i_8,GPIO_0_tri_i_7,GPIO_0_tri_i_6,GPIO_0_tri_i_5,GPIO_0_tri_i_4,GPIO_0_tri_i_3,GPIO_0_tri_i_2,GPIO_0_tri_i_1,GPIO_0_tri_i_0}),
-        .GPIO_0_tri_o({GPIO_0_tri_o_32,GPIO_0_tri_o_31,GPIO_0_tri_o_30,GPIO_0_tri_o_29,GPIO_0_tri_o_28,GPIO_0_tri_o_27,GPIO_0_tri_o_26,GPIO_0_tri_o_25,GPIO_0_tri_o_24,GPIO_0_tri_o_23,GPIO_0_tri_o_22,GPIO_0_tri_o_21,GPIO_0_tri_o_20,GPIO_0_tri_o_19,GPIO_0_tri_o_18,GPIO_0_tri_o_17,GPIO_0_tri_o_16,GPIO_0_tri_o_15,GPIO_0_tri_o_14,GPIO_0_tri_o_13,GPIO_0_tri_o_12,GPIO_0_tri_o_11,GPIO_0_tri_o_10,GPIO_0_tri_o_9,GPIO_0_tri_o_8,GPIO_0_tri_o_7,GPIO_0_tri_o_6,GPIO_0_tri_o_5,GPIO_0_tri_o_4,GPIO_0_tri_o_3,GPIO_0_tri_o_2,GPIO_0_tri_o_1,GPIO_0_tri_o_0}),
-        .GPIO_0_tri_t({GPIO_0_tri_t_32,GPIO_0_tri_t_31,GPIO_0_tri_t_30,GPIO_0_tri_t_29,GPIO_0_tri_t_28,GPIO_0_tri_t_27,GPIO_0_tri_t_26,GPIO_0_tri_t_25,GPIO_0_tri_t_24,GPIO_0_tri_t_23,GPIO_0_tri_t_22,GPIO_0_tri_t_21,GPIO_0_tri_t_20,GPIO_0_tri_t_19,GPIO_0_tri_t_18,GPIO_0_tri_t_17,GPIO_0_tri_t_16,GPIO_0_tri_t_15,GPIO_0_tri_t_14,GPIO_0_tri_t_13,GPIO_0_tri_t_12,GPIO_0_tri_t_11,GPIO_0_tri_t_10,GPIO_0_tri_t_9,GPIO_0_tri_t_8,GPIO_0_tri_t_7,GPIO_0_tri_t_6,GPIO_0_tri_t_5,GPIO_0_tri_t_4,GPIO_0_tri_t_3,GPIO_0_tri_t_2,GPIO_0_tri_t_1,GPIO_0_tri_t_0}),
+        .GPIO_0_tri_i({GPIO_0_tri_i_31,GPIO_0_tri_i_30,GPIO_0_tri_i_29,GPIO_0_tri_i_28,GPIO_0_tri_i_27,GPIO_0_tri_i_26,GPIO_0_tri_i_25,GPIO_0_tri_i_24,GPIO_0_tri_i_23,GPIO_0_tri_i_22,GPIO_0_tri_i_21,GPIO_0_tri_i_20,GPIO_0_tri_i_19,GPIO_0_tri_i_18,GPIO_0_tri_i_17,GPIO_0_tri_i_16,GPIO_0_tri_i_15,GPIO_0_tri_i_14,GPIO_0_tri_i_13,GPIO_0_tri_i_12,GPIO_0_tri_i_11,GPIO_0_tri_i_10,GPIO_0_tri_i_9,GPIO_0_tri_i_8,GPIO_0_tri_i_7,GPIO_0_tri_i_6,GPIO_0_tri_i_5,GPIO_0_tri_i_4,GPIO_0_tri_i_3,GPIO_0_tri_i_2,GPIO_0_tri_i_1,GPIO_0_tri_i_0}),
+        .GPIO_0_tri_o({GPIO_0_tri_o_31,GPIO_0_tri_o_30,GPIO_0_tri_o_29,GPIO_0_tri_o_28,GPIO_0_tri_o_27,GPIO_0_tri_o_26,GPIO_0_tri_o_25,GPIO_0_tri_o_24,GPIO_0_tri_o_23,GPIO_0_tri_o_22,GPIO_0_tri_o_21,GPIO_0_tri_o_20,GPIO_0_tri_o_19,GPIO_0_tri_o_18,GPIO_0_tri_o_17,GPIO_0_tri_o_16,GPIO_0_tri_o_15,GPIO_0_tri_o_14,GPIO_0_tri_o_13,GPIO_0_tri_o_12,GPIO_0_tri_o_11,GPIO_0_tri_o_10,GPIO_0_tri_o_9,GPIO_0_tri_o_8,GPIO_0_tri_o_7,GPIO_0_tri_o_6,GPIO_0_tri_o_5,GPIO_0_tri_o_4,GPIO_0_tri_o_3,GPIO_0_tri_o_2,GPIO_0_tri_o_1,GPIO_0_tri_o_0}),
+        .GPIO_0_tri_t({GPIO_0_tri_t_31,GPIO_0_tri_t_30,GPIO_0_tri_t_29,GPIO_0_tri_t_28,GPIO_0_tri_t_27,GPIO_0_tri_t_26,GPIO_0_tri_t_25,GPIO_0_tri_t_24,GPIO_0_tri_t_23,GPIO_0_tri_t_22,GPIO_0_tri_t_21,GPIO_0_tri_t_20,GPIO_0_tri_t_19,GPIO_0_tri_t_18,GPIO_0_tri_t_17,GPIO_0_tri_t_16,GPIO_0_tri_t_15,GPIO_0_tri_t_14,GPIO_0_tri_t_13,GPIO_0_tri_t_12,GPIO_0_tri_t_11,GPIO_0_tri_t_10,GPIO_0_tri_t_9,GPIO_0_tri_t_8,GPIO_0_tri_t_7,GPIO_0_tri_t_6,GPIO_0_tri_t_5,GPIO_0_tri_t_4,GPIO_0_tri_t_3,GPIO_0_tri_t_2,GPIO_0_tri_t_1,GPIO_0_tri_t_0}),
         .adc_in(adc_in),
         .bclk(bclk),
         .clk_adc_i(clk_adc_i),
+        .cpu_fan_pwm(cpu_fan_pwm),
         .dac_out(dac_out),
+        .dcdc_pwm(dcdc_pwm),
         .din(din),
         .dout(dout),
         .fs(fs),
