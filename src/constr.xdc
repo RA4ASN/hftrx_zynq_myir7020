@@ -71,10 +71,10 @@ set_property -dict {PACKAGE_PIN L20 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_i
 set_property -dict {PACKAGE_PIN V18 IOSTANDARD LVCMOS33} [get_ports GPIO_0_tri_io[31]]
 
 set_property -dict {PACKAGE_PIN H18 IOSTANDARD LVCMOS33} [get_ports mclk]
-set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33} [get_ports bclk]
-set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33} [get_ports fs]
-set_property -dict {PACKAGE_PIN L14 IOSTANDARD LVCMOS33} [get_ports dout]
-set_property -dict {PACKAGE_PIN L15 IOSTANDARD LVCMOS33} [get_ports din]
+set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33} [get_ports i2s_0_bclk]
+set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33} [get_ports i2s_0_lrclk]
+set_property -dict {PACKAGE_PIN L14 IOSTANDARD LVCMOS33} [get_ports i2s_0_sdata_out]
+set_property -dict {PACKAGE_PIN L15 IOSTANDARD LVCMOS33} [get_ports i2s_0_sdata_in]
 
 set_property PACKAGE_PIN L19 [get_ports {adc_in[0]}]
 set_property PACKAGE_PIN K18 [get_ports {adc_in[1]}]
