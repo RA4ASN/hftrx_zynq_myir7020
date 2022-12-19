@@ -5,7 +5,11 @@ hftrx_zynq_myir7020.hw
 hftrx_zynq_myir7020.ioplanning
 hftrx_zynq_myir7020.sdk
 hftrx_zynq_myir7020.tmp
+hftrx_zynq_myir7020.gen
+hftrx_zynq_myir7020.ip_user_files
+NA
 *.log
 *.jou
 *.xsa
 *.str
+*.ui
