@@ -22,8 +22,8 @@
         "axi_i2s_adi_0": "",
         "clk_wiz_0": "",
         "fifo_generator_0": "",
-        "axi_fifo_mic": "",
         "fifo_generator_1": "",
+        "axi_fifo_mic": "",
         "axi_fifo_phones": ""
       },
       "video": {
@@ -69,15 +69,15 @@
         "fir_compiler_7": "",
         "mult_gen_7": "",
         "data_divide_2": "",
-        "axi_dma_fir_reload": "",
         "dds_compiler_0": "",
         "cic_compiler_5": "",
         "dds_compiler_1": "",
         "cic_compiler_6": "",
         "fifo_generator_0": "",
-        "axi_fifo_iq_rx": "",
-        "axi_fifo_iq_tx": "",
-        "fifo_generator_1": ""
+        "fifo_generator_1": "",
+        "FIFO_IQ_RX": "",
+        "FIFO_IQ_TX": "",
+        "FIR_RELOAD_RX": ""
       }
     },
     "interface_ports": {
@@ -289,7 +289,7 @@
         "inst_hier_path": "smartconnect_0",
         "parameters": {
           "NUM_SI": {
-            "value": "3"
+            "value": "1"
           }
         },
         "interface_ports": {
@@ -299,39 +299,7 @@
             "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
             "parameters": {
               "NUM_READ_OUTSTANDING": {
-                "value": "16"
-              },
-              "NUM_WRITE_OUTSTANDING": {
                 "value": "2"
-              }
-            },
-            "bridges": [
-              "M00_AXI"
-            ]
-          },
-          "S01_AXI": {
-            "mode": "Slave",
-            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
-            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
-            "parameters": {
-              "NUM_READ_OUTSTANDING": {
-                "value": "2"
-              },
-              "NUM_WRITE_OUTSTANDING": {
-                "value": "2"
-              }
-            },
-            "bridges": [
-              "M00_AXI"
-            ]
-          },
-          "S02_AXI": {
-            "mode": "Slave",
-            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
-            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
-            "parameters": {
-              "NUM_READ_OUTSTANDING": {
-                "value": "16"
               },
               "NUM_WRITE_OUTSTANDING": {
                 "value": "2"
@@ -350,7 +318,7 @@
                 "value": "8"
               },
               "NUM_READ_OUTSTANDING": {
-                "value": "16"
+                "value": "2"
               },
               "NUM_WRITE_OUTSTANDING": {
                 "value": "2"
@@ -2623,7 +2591,7 @@
             "inst_hier_path": "audio/fifo_generator_0",
             "parameters": {
               "Empty_Threshold_Assert_Value_axis": {
-                "value": "76"
+                "value": "132"
               },
               "Enable_Safety_Circuit": {
                 "value": "true"
@@ -2644,7 +2612,7 @@
                 "value": "AXI_STREAM"
               },
               "Input_Depth_axis": {
-                "value": "256"
+                "value": "512"
               },
               "Programmable_Empty_Type_axis": {
                 "value": "Single_Programmable_Empty_Threshold_Constant"
@@ -2656,12 +2624,6 @@
                 "value": "0"
               }
             }
-          },
-          "axi_fifo_mic": {
-            "vlnv": "pavel-demin:user:axi_axis_reader:1.0",
-            "xci_name": "design_1_axi_axis_reader_0_1",
-            "xci_path": "ip\\design_1_axi_axis_reader_0_1\\design_1_axi_axis_reader_0_1.xci",
-            "inst_hier_path": "audio/axi_fifo_mic"
           },
           "fifo_generator_1": {
             "vlnv": "xilinx.com:ip:fifo_generator:13.2",
@@ -2685,7 +2647,7 @@
                 "value": "1"
               },
               "Full_Threshold_Assert_Value_axis": {
-                "value": "152"
+                "value": "132"
               },
               "INTERFACE_TYPE": {
                 "value": "AXI_STREAM"
@@ -2703,6 +2665,12 @@
                 "value": "0"
               }
             }
+          },
+          "axi_fifo_mic": {
+            "vlnv": "pavel-demin:user:axi_axis_reader:1.0",
+            "xci_name": "design_1_axi_axis_reader_0_1",
+            "xci_path": "ip\\design_1_axi_axis_reader_0_1\\design_1_axi_axis_reader_0_1.xci",
+            "inst_hier_path": "audio/axi_fifo_mic"
           },
           "axi_fifo_phones": {
             "vlnv": "pavel-demin:user:axi_axis_writer:1.0",
@@ -2786,10 +2754,10 @@
               "s_axi_aresetn",
               "axi_i2s_adi_0/s_axis_aresetn",
               "axi_i2s_adi_0/s_axi_aresetn",
-              "axi_fifo_mic/aresetn",
-              "axi_fifo_phones/aresetn",
               "fifo_generator_0/s_aresetn",
-              "fifo_generator_1/s_aresetn"
+              "fifo_generator_1/s_aresetn",
+              "axi_fifo_mic/aresetn",
+              "axi_fifo_phones/aresetn"
             ]
           },
           "util_ds_buf_0_BUFG_O": {
@@ -2799,10 +2767,10 @@
               "axi_i2s_adi_0/m_axis_aclk",
               "axi_i2s_adi_0/s_axi_aclk",
               "clk_wiz_0/clk_in1",
-              "axi_fifo_mic/aclk",
-              "axi_fifo_phones/aclk",
               "fifo_generator_0/s_aclk",
-              "fifo_generator_1/s_aclk"
+              "fifo_generator_1/s_aclk",
+              "axi_fifo_mic/aclk",
+              "axi_fifo_phones/aclk"
             ]
           }
         }
@@ -2924,7 +2892,7 @@
                 },
                 "parameters": {
                   "master_id": {
-                    "value": "2"
+                    "value": "7"
                   }
                 }
               }
@@ -3211,27 +3179,22 @@
       },
       "iq_modem": {
         "interface_ports": {
-          "S00_AXI": {
+          "S_AXI_TRX_CONTROL": {
             "mode": "Slave",
             "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
             "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
           },
-          "S_AXI_LITE1": {
+          "S_AXI_FIFO_IQ_RX": {
             "mode": "Slave",
             "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
             "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
           },
-          "M_AXI_MM2S1": {
-            "mode": "Master",
-            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
-            "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
-          },
-          "S_AXI": {
+          "S_AXI_FIFO_IQ_TX": {
             "mode": "Slave",
             "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
             "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
           },
-          "S_AXI1": {
+          "S_AXI_FIR_RELOAD_RX": {
             "mode": "Slave",
             "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
             "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
@@ -4708,54 +4671,6 @@
               }
             }
           },
-          "axi_dma_fir_reload": {
-            "vlnv": "xilinx.com:ip:axi_dma:7.1",
-            "xci_name": "design_1_axi_dma_0_2",
-            "xci_path": "ip\\design_1_axi_dma_0_2\\design_1_axi_dma_0_2.xci",
-            "inst_hier_path": "iq_modem/axi_dma_fir_reload",
-            "parameters": {
-              "c_addr_width": {
-                "value": "32"
-              },
-              "c_include_mm2s_dre": {
-                "value": "1"
-              },
-              "c_include_s2mm": {
-                "value": "0"
-              },
-              "c_include_sg": {
-                "value": "0"
-              },
-              "c_sg_length_width": {
-                "value": "23"
-              }
-            },
-            "interface_ports": {
-              "M_AXI_MM2S": {
-                "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
-                "mode": "Master",
-                "address_space_ref": "Data_MM2S",
-                "base_address": {
-                  "minimum": "0x00000000",
-                  "maximum": "0xFFFFFFFF",
-                  "width": "32"
-                },
-                "parameters": {
-                  "master_id": {
-                    "value": "6"
-                  }
-                }
-              }
-            },
-            "addressing": {
-              "address_spaces": {
-                "Data_MM2S": {
-                  "range": "4G",
-                  "width": "32"
-                }
-              }
-            }
-          },
           "dds_compiler_0": {
             "vlnv": "xilinx.com:ip:dds_compiler:6.0",
             "xci_name": "design_1_dds_compiler_0_0",
@@ -4990,13 +4905,13 @@
                 "value": "1"
               },
               "Full_Threshold_Assert_Value_axis": {
-                "value": "152"
+                "value": "264"
               },
               "INTERFACE_TYPE": {
                 "value": "AXI_STREAM"
               },
               "Input_Depth_axis": {
-                "value": "512"
+                "value": "1024"
               },
               "Programmable_Full_Type_axis": {
                 "value": "Single_Programmable_Full_Threshold_Constant"
@@ -5009,18 +4924,6 @@
               }
             }
           },
-          "axi_fifo_iq_rx": {
-            "vlnv": "pavel-demin:user:axi_axis_reader:1.0",
-            "xci_name": "design_1_axi_axis_reader_0_0",
-            "xci_path": "ip\\design_1_axi_axis_reader_0_0\\design_1_axi_axis_reader_0_0.xci",
-            "inst_hier_path": "iq_modem/axi_fifo_iq_rx"
-          },
-          "axi_fifo_iq_tx": {
-            "vlnv": "pavel-demin:user:axi_axis_writer:1.0",
-            "xci_name": "design_1_axi_axis_writer_0_0",
-            "xci_path": "ip\\design_1_axi_axis_writer_0_0\\design_1_axi_axis_writer_0_0.xci",
-            "inst_hier_path": "iq_modem/axi_fifo_iq_tx"
-          },
           "fifo_generator_1": {
             "vlnv": "xilinx.com:ip:fifo_generator:13.2",
             "xci_name": "design_1_fifo_generator_1_0",
@@ -5028,7 +4931,7 @@
             "inst_hier_path": "iq_modem/fifo_generator_1",
             "parameters": {
               "Empty_Threshold_Assert_Value_axis": {
-                "value": "37"
+                "value": "66"
               },
               "Enable_Safety_Circuit": {
                 "value": "true"
@@ -5061,37 +4964,55 @@
                 "value": "0"
               }
             }
+          },
+          "FIFO_IQ_RX": {
+            "vlnv": "pavel-demin:user:axi_axis_reader:1.0",
+            "xci_name": "design_1_axi_axis_reader_0_0",
+            "xci_path": "ip\\design_1_axi_axis_reader_0_0\\design_1_axi_axis_reader_0_0.xci",
+            "inst_hier_path": "iq_modem/FIFO_IQ_RX"
+          },
+          "FIFO_IQ_TX": {
+            "vlnv": "pavel-demin:user:axi_axis_writer:1.0",
+            "xci_name": "design_1_axi_axis_writer_0_0",
+            "xci_path": "ip\\design_1_axi_axis_writer_0_0\\design_1_axi_axis_writer_0_0.xci",
+            "inst_hier_path": "iq_modem/FIFO_IQ_TX"
+          },
+          "FIR_RELOAD_RX": {
+            "vlnv": "pavel-demin:user:axi_axis_writer:1.0",
+            "xci_name": "design_1_axi_axis_writer_0_3",
+            "xci_path": "ip\\design_1_axi_axis_writer_0_3\\design_1_axi_axis_writer_0_3.xci",
+            "inst_hier_path": "iq_modem/FIR_RELOAD_RX"
           }
         },
         "interface_nets": {
           "Conn1": {
             "interface_ports": [
-              "S_AXI1",
-              "axi_fifo_iq_tx/S_AXI"
+              "S_AXI_FIFO_IQ_TX",
+              "FIFO_IQ_TX/S_AXI"
+            ]
+          },
+          "Conn2": {
+            "interface_ports": [
+              "S_AXI_FIR_RELOAD_RX",
+              "FIR_RELOAD_RX/S_AXI"
             ]
           },
           "S_AXI_1": {
             "interface_ports": [
-              "S_AXI",
-              "axi_fifo_iq_rx/S_AXI"
+              "S_AXI_FIFO_IQ_RX",
+              "FIFO_IQ_RX/S_AXI"
             ]
           },
           "axi_axis_writer_0_M_AXIS": {
             "interface_ports": [
-              "axi_fifo_iq_tx/M_AXIS",
+              "FIFO_IQ_TX/M_AXIS",
               "fifo_generator_1/S_AXIS"
             ]
           },
-          "axi_dma_0_M_AXIS_MM2S": {
+          "axi_axis_writer_0_M_AXIS1": {
             "interface_ports": [
-              "axi_dma_fir_reload/M_AXIS_MM2S",
+              "FIR_RELOAD_RX/M_AXIS",
               "axis_broadcaster_0/S_AXIS"
-            ]
-          },
-          "axi_dma_fir_reload_M_AXI_MM2S": {
-            "interface_ports": [
-              "M_AXI_MM2S1",
-              "axi_dma_fir_reload/M_AXI_MM2S"
             ]
           },
           "axis_broadcaster_0_M00_AXIS": {
@@ -5169,7 +5090,7 @@
           "fifo_generator_0_M_AXIS": {
             "interface_ports": [
               "fifo_generator_0/M_AXIS",
-              "axi_fifo_iq_rx/S_AXIS"
+              "FIFO_IQ_RX/S_AXIS"
             ]
           },
           "fifo_generator_1_M_AXIS": {
@@ -5226,15 +5147,9 @@
               "fifo_generator_0/S_AXIS"
             ]
           },
-          "smartconnect_1_M00_AXI": {
-            "interface_ports": [
-              "S_AXI_LITE1",
-              "axi_dma_fir_reload/S_AXI_LITE"
-            ]
-          },
           "smartconnect_1_M07_AXI": {
             "interface_ports": [
-              "S00_AXI",
+              "S_AXI_TRX_CONTROL",
               "trx_control2_0/S00_AXI"
             ]
           }
@@ -5448,7 +5363,6 @@
           "proc_sys_reset_150M_peripheral_aresetn": {
             "ports": [
               "axi_resetn",
-              "axi_dma_fir_reload/axi_resetn",
               "axis_broadcaster_0/aresetn",
               "cic_compiler_0/aresetn",
               "cic_compiler_1/aresetn",
@@ -5470,10 +5384,11 @@
               "fir_compiler_7/aresetn",
               "axis_broadcaster_1/aresetn",
               "trx_control2_0/s00_axi_aresetn",
-              "axi_fifo_iq_rx/aresetn",
               "fifo_generator_0/s_aresetn",
-              "axi_fifo_iq_tx/aresetn",
-              "fifo_generator_1/s_aresetn"
+              "fifo_generator_1/s_aresetn",
+              "FIFO_IQ_RX/aresetn",
+              "FIFO_IQ_TX/aresetn",
+              "FIR_RELOAD_RX/aresetn"
             ]
           },
           "trx_control2_0_dds_ftw": {
@@ -5517,8 +5432,6 @@
             "ports": [
               "clk_adc_i",
               "DAC_OUT_0/clk_in",
-              "axi_dma_fir_reload/s_axi_lite_aclk",
-              "axi_dma_fir_reload/m_axi_mm2s_aclk",
               "axis_broadcaster_0/aclk",
               "c_addsub_0/CLK",
               "cic_compiler_0/aclk",
@@ -5554,10 +5467,11 @@
               "data_latch_0/clk_i",
               "axis_broadcaster_1/aclk",
               "trx_control2_0/s00_axi_aclk",
-              "axi_fifo_iq_rx/aclk",
               "fifo_generator_0/s_aclk",
-              "axi_fifo_iq_tx/aclk",
-              "fifo_generator_1/s_aclk"
+              "fifo_generator_1/s_aclk",
+              "FIFO_IQ_RX/aclk",
+              "FIFO_IQ_TX/aclk",
+              "FIR_RELOAD_RX/aclk"
             ]
           }
         }
@@ -5566,14 +5480,8 @@
     "interface_nets": {
       "S00_AXI_1": {
         "interface_ports": [
-          "iq_modem/S00_AXI",
+          "iq_modem/S_AXI_TRX_CONTROL",
           "smartconnect_1/M05_AXI"
-        ]
-      },
-      "S_AXI1_2": {
-        "interface_ports": [
-          "iq_modem/S_AXI1",
-          "smartconnect_1/M08_AXI"
         ]
       },
       "S_AXI2_1": {
@@ -5588,18 +5496,6 @@
           "smartconnect_1/M03_AXI"
         ]
       },
-      "S_AXI_2": {
-        "interface_ports": [
-          "iq_modem/S_AXI",
-          "smartconnect_1/M07_AXI"
-        ]
-      },
-      "S_AXI_LITE1_1": {
-        "interface_ports": [
-          "iq_modem/S_AXI_LITE1",
-          "smartconnect_1/M06_AXI"
-        ]
-      },
       "S_AXI_LITE_1": {
         "interface_ports": [
           "video/S_AXI_LITE",
@@ -5610,18 +5506,6 @@
         "interface_ports": [
           "i2s_0",
           "audio/i2s_0"
-        ]
-      },
-      "axi_dma_fir_reload_M_AXI_MM2S": {
-        "interface_ports": [
-          "iq_modem/M_AXI_MM2S1",
-          "smartconnect_0/S00_AXI"
-        ]
-      },
-      "axi_vdma_0_M_AXI_MM2S": {
-        "interface_ports": [
-          "video/M_AXI_MM2S",
-          "smartconnect_0/S01_AXI"
         ]
       },
       "ctrl_1": {
@@ -5666,6 +5550,24 @@
           "processing_system7_0/S_AXI_HP0"
         ]
       },
+      "smartconnect_1_M06_AXI": {
+        "interface_ports": [
+          "smartconnect_1/M06_AXI",
+          "iq_modem/S_AXI_FIFO_IQ_RX"
+        ]
+      },
+      "smartconnect_1_M07_AXI": {
+        "interface_ports": [
+          "smartconnect_1/M07_AXI",
+          "iq_modem/S_AXI_FIFO_IQ_TX"
+        ]
+      },
+      "smartconnect_1_M08_AXI": {
+        "interface_ports": [
+          "smartconnect_1/M08_AXI",
+          "iq_modem/S_AXI_FIR_RELOAD_RX"
+        ]
+      },
       "smartconnect_1_M09_AXI": {
         "interface_ports": [
           "smartconnect_1/M09_AXI",
@@ -5676,6 +5578,12 @@
         "interface_ports": [
           "smartconnect_1/M10_AXI",
           "dcdc_pwm_1/S00_AXI"
+        ]
+      },
+      "video_M_AXI_MM2S": {
+        "interface_ports": [
+          "smartconnect_0/S00_AXI",
+          "video/M_AXI_MM2S"
         ]
       }
     },
@@ -5840,7 +5748,7 @@
                 "range": "64K"
               },
               "SEG_axi_axis_reader_0_reg0": {
-                "address_block": "/iq_modem/axi_fifo_iq_rx/s_axi/reg0",
+                "address_block": "/iq_modem/FIFO_IQ_RX/s_axi/reg0",
                 "offset": "0x43C00000",
                 "range": "64K"
               },
@@ -5850,7 +5758,7 @@
                 "range": "64K"
               },
               "SEG_axi_axis_writer_0_reg0": {
-                "address_block": "/iq_modem/axi_fifo_iq_tx/s_axi/reg0",
+                "address_block": "/iq_modem/FIFO_IQ_TX/s_axi/reg0",
                 "offset": "0x43C80000",
                 "range": "64K"
               },
@@ -5859,9 +5767,9 @@
                 "offset": "0x43C60000",
                 "range": "64K"
               },
-              "SEG_axi_dma_fir_reload_Reg": {
-                "address_block": "/iq_modem/axi_dma_fir_reload/S_AXI_LITE/Reg",
-                "offset": "0x40400000",
+              "SEG_axi_axis_writer_0_reg0_2": {
+                "address_block": "/iq_modem/FIR_RELOAD_RX/s_axi/reg0",
+                "offset": "0x43C90000",
                 "range": "64K"
               },
               "SEG_axi_i2s_adi_0_axi_lite": {
@@ -5889,19 +5797,6 @@
         }
       },
       "/video/axi_vdma_0": {
-        "address_spaces": {
-          "Data_MM2S": {
-            "segments": {
-              "SEG_processing_system7_0_HP0_DDR_LOWOCM": {
-                "address_block": "/processing_system7_0/S_AXI_HP0/HP0_DDR_LOWOCM",
-                "offset": "0x00000000",
-                "range": "512M"
-              }
-            }
-          }
-        }
-      },
-      "/iq_modem/axi_dma_fir_reload": {
         "address_spaces": {
           "Data_MM2S": {
             "segments": {
